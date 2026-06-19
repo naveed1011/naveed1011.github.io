@@ -148,7 +148,7 @@ section{padding:5.5rem 5%}
   display:flex;align-items:center;justify-content:center;
   position:relative;
 }
-.avatar-box img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.avatar-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
 .avatar-placeholder{
   display:flex;flex-direction:column;align-items:center;gap:.6rem;
   color:var(--muted);font-size:.82rem;text-align:center;padding:1rem;
@@ -383,13 +383,12 @@ footer{
   <div class="about-grid reveal">
     <div>
       <div class="avatar-box" id="avatarBox">
-        <!-- Replace the placeholder below with your image once you have a link -->
-        <img src="photo.jpeg" alt="Naveed Ahmad" />
-        <div class="avatar-placeholder">
-          <i class="fa-solid fa-user"></i>
-          <span>Your photo<br>goes here</span>
-        </div>
-      </div>
+  <img src="photo.jpeg" alt="Naveed Ahmad" onerror="this.style.display='none';document.getElementById('avatarFallback').style.display='flex'"/>
+  <div class="avatar-placeholder" id="avatarFallback" style="display:none;position:relative;z-index:1">
+    <i class="fa-solid fa-user"></i>
+    <span>Photo unavailable</span>
+  </div>
+</div>
       <div class="about-chips">
         <span class="chip"><i class="fa-solid fa-location-dot" style="margin-right:.3rem;color:var(--accent)"></i>Peshawar, Pakistan</span>
         <span class="chip">BS COMPUTER SCIENCE</span>
