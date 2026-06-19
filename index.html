@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Naveed Ahmad — AI Researcher</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+/* ── TOKENS ───────────────────────────────────── */
+:root{
+  --bg:#080808;
+  --surface:#111111;
+  --surface2:#1A1A1A;
+  --border:rgba(239,68,68,.18);
+  --text:#F2F2F2;
+  --muted:#888888;
+  --accent:#EF4444;
+  --accent2:#FF8080;
+  --glow:rgba(239,68,68,.18);
+  --pub:#F59E0B;
+  --r:14px;
+  --t:.3s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"]{
+  --bg:#F5F5F5;
+  --surface:#FFFFFF;
+  --surface2:#EBEBEB;
+  --border:rgba(220,38,38,.18);
+  --text:#0A0A0A;
+  --muted:#555555;
+  --accent:#DC2626;
+  --accent2:#EF4444;
+  --glow:rgba(220,38,38,.10);
+  --pub:#D97706;
+}
+
+/* ── RESET ────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.65;
+  transition:background var(--t),color var(--t);overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:9px}
+
+/* ── NAV ──────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 5%;
+  background:rgba(8,8,8,.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:background var(--t);
+}
+[data-theme="light"] nav{background:rgba(245,245,245,.88)}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-size:.84rem;font-weight:500;color:var(--muted);transition:color var(--t)}
+.nav-links a:hover{color:var(--text)}
+.theme-btn{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);cursor:pointer;border-radius:50px;
+  padding:.38rem .82rem;font-size:.78rem;font-weight:500;
+  display:flex;align-items:center;gap:.4rem;transition:all var(--t);
+}
+.theme-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── HERO ─────────────────────────────────────── */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;padding:7rem 5% 4rem;
+}
+#neural-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.4;pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.28);
+  color:var(--accent2);font-family:'JetBrains Mono',monospace;
+  font-size:.77rem;padding:.33rem .88rem;border-radius:50px;margin-bottom:1.8rem;
+}
+h1.hero-name{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.07;
+  letter-spacing:-1.5px;margin-bottom:.65rem;
+}
+.hero-name span{
+  background:linear-gradient(135deg,var(--accent) 20%,var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-title{
+  font-size:clamp(.9rem,2vw,1.15rem);color:var(--muted);
+  font-weight:400;margin-bottom:2.2rem;
+}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#F87171);
+  color:#fff;padding:.72rem 1.75rem;border-radius:50px;
+  font-weight:600;font-size:.88rem;border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(239,68,68,.35);
+  transition:transform var(--t),box-shadow var(--t);display:inline-block;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(239,68,68,.5)}
+.btn-ghost{
+  background:transparent;color:var(--text);padding:.7rem 1.75rem;border-radius:50px;
+  font-weight:500;font-size:.88rem;border:1px solid var(--border);
+  transition:all var(--t);display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.hero-socials{display:flex;gap:1rem;justify-content:center}
+.hero-socials a{
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);font-size:.9rem;transition:all var(--t);
+}
+.hero-socials a:hover{border-color:var(--accent);color:var(--accent);background:var(--glow)}
+
+/* ── SECTION SHELL ────────────────────────────── */
+section{padding:5.5rem 5%}
+.section-label{
+  font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:500;
+  color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:clamp(1.7rem,3.5vw,2.5rem);letter-spacing:-.5px;margin-bottom:2.8rem;
+}
+.section-title em{color:var(--accent);font-style:normal}
+
+/* ── ABOUT ────────────────────────────────────── */
+#about{background:var(--surface)}
+.about-grid{display:grid;grid-template-columns:280px 1fr;gap:3.5rem;align-items:start}
+.avatar-box{
+  width:100%;border-radius:var(--r);overflow:hidden;
+  border:2px solid var(--border);aspect-ratio:1;
+  background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.avatar-box img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar-placeholder{
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  color:var(--muted);font-size:.82rem;text-align:center;padding:1rem;
+}
+.avatar-placeholder i{font-size:2.8rem;color:var(--accent);opacity:.5}
+.about-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.chip{
+  background:var(--surface2);border:1px solid var(--border);
+  padding:.28rem .75rem;border-radius:50px;font-size:.76rem;color:var(--muted);
+}
+.about-text p{color:var(--muted);font-size:.95rem;line-height:1.78;margin-bottom:.95rem}
+.about-text p:last-of-type{margin-bottom:0}
+.about-meta{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.6rem}
+.meta-item{background:var(--surface2);border:1px solid var(--border);padding:.75rem 1rem;border-radius:var(--r)}
+.mi-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem}
+.mi-val{font-size:.86rem;font-weight:500}
+
+/* ── RESEARCH ─────────────────────────────────── */
+#research{background:var(--bg)}
+.pub-card{
+  background:var(--surface);border:1px solid rgba(245,158,11,.2);
+  border-radius:var(--r);padding:2rem;position:relative;overflow:hidden;
+}
+.pub-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--pub),var(--accent));
+}
+.pub-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);
+  color:var(--pub);font-size:.74rem;font-weight:600;
+  padding:.28rem .72rem;border-radius:50px;margin-bottom:1rem;
+}
+.pub-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.12rem;margin-bottom:.55rem;line-height:1.42}
+.pub-authors{font-size:.84rem;color:var(--muted);margin-bottom:.35rem}
+.pub-authors strong{color:var(--accent)}
+.pub-venue{font-size:.84rem;color:var(--muted);margin-bottom:.9rem}
+.pub-desc{font-size:.86rem;color:var(--muted);line-height:1.68;margin-bottom:1.1rem}
+.pub-tags{display:flex;flex-wrap:wrap;gap:.45rem}
+.pub-tag{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--accent2);font-size:.74rem;padding:.22rem .62rem;
+  border-radius:50px;font-family:'JetBrains Mono',monospace;
+}
+
+/* ── SKILLS ───────────────────────────────────── */
+#skills{background:var(--surface)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.3rem}
+.skill-group{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.4rem;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.skill-group:hover{border-color:var(--accent);box-shadow:0 4px 22px var(--glow)}
+.sg-head{display:flex;align-items:center;gap:.65rem;margin-bottom:1.1rem}
+.sg-icon{
+  width:34px;height:34px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:.88rem;
+  background:rgba(239,68,68,.12);color:var(--accent);
+}
+.sg-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem}
+.stags{display:flex;flex-wrap:wrap;gap:.4rem}
+.stag{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);font-size:.76rem;padding:.25rem .65rem;
+  border-radius:50px;font-weight:500;transition:all var(--t);cursor:default;
+}
+.stag:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── PROJECTS ─────────────────────────────────── */
+#projects{background:var(--bg)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+.pc{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.7rem;
+  display:flex;flex-direction:column;
+  transition:transform var(--t),box-shadow var(--t),border-color var(--t);
+  position:relative;overflow:hidden;
+}
+.pc::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transform:scaleX(0);transform-origin:left;transition:transform var(--t);
+}
+.pc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(239,68,68,.12);border-color:var(--accent)}
+.pc:hover::after{transform:scaleX(1)}
+.pc-type{font-size:.7rem;font-weight:600;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:.65rem}
+.pc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.02rem;margin-bottom:.55rem;line-height:1.32}
+.pc-desc{font-size:.84rem;color:var(--muted);line-height:1.68;flex:1;margin-bottom:1.1rem}
+.pc-stack{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:1.1rem}
+.pc-tag{background:var(--surface2);color:var(--muted);font-size:.71rem;padding:.18rem .58rem;border-radius:50px;border:1px solid var(--border)}
+.pc-links{display:flex;gap:.7rem}
+.pc-link{
+  display:inline-flex;align-items:center;gap:.32rem;
+  font-size:.78rem;font-weight:500;color:var(--accent);
+  border:1px solid rgba(239,68,68,.3);padding:.28rem .72rem;border-radius:50px;
+  transition:all var(--t);
+}
+.pc-link:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── EXPERIENCE ───────────────────────────────── */
+#experience{background:var(--surface)}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{
+  content:'';position:absolute;left:0;top:.5rem;bottom:.5rem;
+  width:2px;background:linear-gradient(to bottom,var(--accent),var(--accent2));
+}
+.tl-item{position:relative;margin-bottom:2.4rem}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{
+  position:absolute;left:-1.92rem;top:.28rem;
+  width:13px;height:13px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg);
+  box-shadow:0 0 0 3px rgba(239,68,68,.2);
+}
+.tl-date{font-size:.74rem;color:var(--accent2);font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:.28rem}
+.tl-role{font-family:'Syne',sans-serif;font-weight:700;font-size:.98rem;margin-bottom:.18rem}
+.tl-org{font-size:.83rem;color:var(--muted);margin-bottom:.55rem}
+.tl-bullets{color:var(--muted);font-size:.85rem;line-height:1.72}
+.tl-bullets li{position:relative;padding-left:1rem;margin-bottom:.28rem}
+.tl-bullets li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:.78rem}
+
+/* ── AWARDS ───────────────────────────────────── */
+#awards{background:var(--bg)}
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.1rem}
+.award-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.3rem;
+  display:flex;align-items:flex-start;gap:.9rem;
+  transition:border-color var(--t);
+}
+.award-card:hover{border-color:var(--accent)}
+.award-icon{
+  width:40px;height:40px;min-width:40px;border-radius:9px;
+  background:var(--glow);border:1px solid rgba(239,68,68,.22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:var(--accent);
+}
+.award-title{font-weight:600;font-size:.88rem;margin-bottom:.22rem}
+.award-desc{font-size:.78rem;color:var(--muted);line-height:1.55}
+
+/* ── CONTACT ──────────────────────────────────── */
+#contact{background:var(--surface)}
+.contact-inner{max-width:640px;margin:0 auto;text-align:center}
+.contact-inner .section-title{margin-bottom:.9rem}
+.contact-inner p{color:var(--muted);font-size:.95rem;margin-bottom:2.3rem}
+.contact-links{display:flex;flex-wrap:wrap;gap:.9rem;justify-content:center}
+.c-link{
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.65rem 1.3rem;border-radius:50px;font-size:.86rem;font-weight:500;
+  border:1px solid var(--border);color:var(--text);transition:all var(--t);
+}
+.c-link:hover{border-color:var(--accent);color:var(--accent);background:var(--glow)}
+.c-link i{color:var(--accent)}
+
+/* ── FOOTER ───────────────────────────────────── */
+footer{
+  background:var(--bg);border-top:1px solid var(--border);
+  padding:1.8rem 5%;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:.8rem;
+}
+.footer-left{font-size:.78rem;color:var(--muted)}
+.footer-left span{color:var(--accent)}
+.footer-right{display:flex;gap:1rem}
+.footer-right a{font-size:.78rem;color:var(--muted);transition:color var(--t)}
+.footer-right a:hover{color:var(--text)}
+
+/* ── REVEAL ───────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media(max-width:860px){
+  .about-grid{grid-template-columns:1fr}
+  .avatar-box{max-width:200px;margin:0 auto}
+  .about-meta{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .nav-links a:not(:last-child){display:none}
+  footer{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Naveed Ahmad</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+    <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">
+      <i class="fa-solid fa-sun" id="themeIcon"></i>
+      <span id="themeLabel">Dark</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="neural-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fa-solid fa-circle" style="color:#F59E0B;font-size:.45rem"></i>
+      &nbsp;Q1 Published Researcher &nbsp;·&nbsp; Computer Vision &nbsp;·&nbsp; Medical AI
+    </div>
+    <h1 class="hero-name">Naveed <span>Ahmad</span></h1>
+    <p class="hero-title">
+      AI Researcher &nbsp;·&nbsp; Multimodal Learning &nbsp;·&nbsp; Medical Imaging and XAI &nbsp;
+    </p>
+    <div class="hero-cta">
+      <a href="#research" class="btn-primary">View Research</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/naveed1011" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/naveed-ahmad10" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="mailto:naveedjr1011@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+      <a href="tel:+923219854216" title="Phone"><i class="fa-solid fa-phone"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who I am</div>
+  <h2 class="section-title">About <em>Me</em></h2>
+  <div class="about-grid reveal">
+    <div>
+      <div class="avatar-box" id="avatarBox">
+        <!-- Replace the placeholder below with your image once you have a link -->
+        <img src="https://drive.google.com/uc?export=view&id=1Cda7sdwKPacBeOwNFfVymSEsf1R8S3co" alt="Naveed Ahmad" />
+        <div class="avatar-placeholder">
+          <i class="fa-solid fa-user"></i>
+          <span>Your photo<br>goes here</span>
+        </div>
+      </div>
+      <div class="about-chips">
+        <span class="chip"><i class="fa-solid fa-location-dot" style="margin-right:.3rem;color:var(--accent)"></i>Peshawar, Pakistan</span>
+        <span class="chip">BS COMPUTER SCIENCE</span>
+        <span class="chip">IELTS</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <p>
+        I'm an AI researcher with a deep interest in <strong>Deep Learning</strong>, <strong>Medical Image Analysis</strong>, and <strong>Explainable AI (XAI)</strong>. My core focus lies in building and interpreting neural networks that operate on complex medical data — particularly MRI-based classification tasks for neurodegenerative disease detection.
+      </p>
+      <p>
+        I recently co-authored a Q1 journal paper on <strong>Multi-view Deep Learning for Early Alzheimer's Detection</strong> published in <em>Image and Vision Computing</em> (IF 4.2), where I worked on multi-modal MRI classification to detect early progression from Mild Cognitive Impairment (MCI) to Alzheimer's Disease — combining deep feature extraction with explainability techniques to make model decisions interpretable for clinical use.
+      </p>
+      <p>
+        I'm fascinated by the intersection of <strong>Multimodal AI</strong>, <strong>Large Language Models (LLMs)</strong>, and Medical Imaging — exploring how vision-language models and multimodal architectures can enhance diagnostic reasoning beyond what single-modality systems can achieve. I am eager to pursue a Master's degree to push the boundaries of <strong>Medical XAI</strong>, multimodal classification, and clinically trustworthy AI systems.
+      </p>
+      <div class="about-meta">
+        <div class="meta-item">
+          <div class="mi-label">University</div>
+          <div class="mi-val">Abdul Wali Khan University Mardan</div>
+        </div>
+        <div class="meta-item">
+          <div class="mi-label">Degree</div>
+          <div class="mi-val">BSc Computer Science</div>
+        </div>
+        <div class="meta-item">
+          <div class="mi-label">Focus Areas</div>
+          <div class="mi-val">Medical AI · Multimodal LLMs · CV · Deep Learning</div>
+        </div>
+        <div class="meta-item">
+          <div class="mi-label">Languages</div>
+          <div class="mi-val">English (IELTS) · Korean (Beginner)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-label">Publications</div>
+  <h2 class="section-title">Research <em>Work</em></h2>
+  <div class="pub-card reveal">
+    <div class="pub-badge"><i class="fa-solid fa-trophy"></i>&nbsp;Q1 Journal &nbsp;·&nbsp; Image and Vision Computing &nbsp;·&nbsp; IF 4.2 &nbsp;·&nbsp; Top 10%</div>
+    <div class="pub-title">Early Progression Detection from MCI to AD Using Multi-view MRI for Enhanced Assisted Living</div>
+    <div class="pub-authors">Rahim, N., <strong>Ahmad, N.</strong>, Ullah, W., Bedi, J., &amp; Jung, Y. (2025).</div>
+    <div class="pub-venue"><em>Image and Vision Computing</em>, 105491 &nbsp;·&nbsp; Elsevier</div>
+    <p class="pub-desc">
+      Developed a multi-view deep learning framework for early detection of progression from Mild Cognitive Impairment (MCI) to Alzheimer's Disease (AD) using multi-modal MRI data. The approach improves assisted living applications through enhanced diagnostic accuracy and explainability.
+    </p>
+    <div class="pub-tags">
+      <span class="pub-tag">Alzheimer's Detection</span>
+      <span class="pub-tag">Multi-view MRI</span>
+      <span class="pub-tag">Deep Learning</span>
+      <span class="pub-tag">Medical Imaging</span>
+      <span class="pub-tag">MCI Progression</span>
+      <span class="pub-tag">Explainable AI</span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Tech Stack</div>
+  <h2 class="section-title">Skills &amp; <em>Tools</em></h2>
+  <div class="skills-grid reveal">
+    <div class="skill-group">
+      <div class="sg-head">
+        <div class="sg-icon"><i class="fa-solid fa-brain"></i></div>
+        <span class="sg-label">AI &amp; Machine Learning</span>
+      </div>
+      <div class="stags">
+        <span class="stag">Machine Learning</span>
+        <span class="stag">Computer Vision</span>
+        <span class="stag">Image Processing</span>
+        <span class="stag">PyTorch</span>
+        <span class="stag">TensorFlow</span>
+        <span class="stag">Scikit-Learn</span>
+        <span class="stag">OpenCV</span>
+        <span class="stag">Prompt Engineering</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="sg-head">
+        <div class="sg-icon"><i class="fa-solid fa-code"></i></div>
+        <span class="sg-label">Programming Languages</span>
+      </div>
+      <div class="stags">
+        <span class="stag">Python</span>
+        <span class="stag">Java</span>
+        <span class="stag"> C++ </span>
+        <span class="stag">Dart</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="sg-head">
+        <div class="sg-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <span class="sg-label">Development</span>
+      </div>
+      <div class="stags">
+        <span class="stag">Kaggle</span>
+        <span class="stag">Google Colab</span>
+        <span class="stag">Hugging Face</span>
+        <span class="stag">Git / GitHub</span>
+        <span class="stag">Data Structures</span>
+        <span class="stag">Algorithms</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="sg-head">
+        <div class="sg-icon"><i class="fa-brands fa-linux"></i></div>
+        <span class="sg-label">Platforms &amp; Tools</span>
+      </div>
+      <div class="stags">
+        <span class="stag">Ubuntu / Linux</span>
+        <span class="stag">Windows</span>
+        <span class="stag">Jupyter Notebook</span>
+        <span class="stag">Google Colab</span>
+        <span class="stag">VS Code</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Built by me</div>
+  <h2 class="section-title">Featured <em>Projects</em></h2>
+  <div class="projects-grid">
+    <div class="pc reveal">
+      <div class="pc-type">Mobile App · FYP / Thesis</div>
+      <div class="pc-title">The Stitcher — Tailor Shop Management</div>
+      <p class="pc-desc">A Flutter client-server mobile app that modernizes tailor shops. Features an admin panel for tailors to manage orders and measurements, and a client interface for browsing tailors, placing orders, and real-time tracking.</p>
+      <div class="pc-stack">
+        <span class="pc-tag">Flutter</span><span class="pc-tag">Dart</span>
+        <span class="pc-tag">Firebase</span><span class="pc-tag">Android</span>
+      </div>
+      <div class="pc-links">
+        <a href="https://github.com/naveed1011" target="_blank" class="pc-link"><i class="fa-brands fa-github"></i> Code</a>
+        <a href="https://drive.google.com/file/d/1bm4uRLpl4MyuPHJ-AD0ms6JJ18IyDlCD/view?usp=sharing" target="_blank" class="pc-link"><i class="fa-solid fa-play"></i> Demo</a>
+      </div>
+    </div>
+    <div class="pc reveal">
+      <div class="pc-type">Machine Learning · Computer Vision</div>
+      <div class="pc-title">Vehicle Speed Analysis &amp; Action Prediction</div>
+      <p class="pc-desc">Predicts car actions (acceleration, braking, turning) based on speed using supervised learning. Analyzes speed patterns to classify driving behaviour with high accuracy using structured ML pipelines.</p>
+      <div class="pc-stack">
+        <span class="pc-tag">Python</span><span class="pc-tag">Scikit-Learn</span>
+        <span class="pc-tag">Pandas</span><span class="pc-tag">Jupyter</span>
+      </div>
+      <div class="pc-links">
+        <a href="https://github.com/naveed1011/VehicleSpeedAnalysis" target="_blank" class="pc-link"><i class="fa-brands fa-github"></i> Code</a>
+      </div>
+    </div>
+    <div class="pc reveal">
+      <div class="pc-type">Machine Learning · Classification</div>
+      <div class="pc-title">Iris Flower Classification</div>
+      <p class="pc-desc">Implements and benchmarks multiple ML classifiers on the Iris dataset with feature analysis and visualizations to compare algorithm performance — a clean and well-documented ML pipeline.</p>
+      <div class="pc-stack">
+        <span class="pc-tag">Python</span><span class="pc-tag">Scikit-Learn</span>
+        <span class="pc-tag">Matplotlib</span><span class="pc-tag">Jupyter</span>
+      </div>
+      <div class="pc-links">
+        <a href="https://github.com/naveed1011/Iris_Flower_Classification_MachineLearning" target="_blank" class="pc-link"><i class="fa-brands fa-github"></i> Code</a>
+      </div>
+    </div>
+    <div class="pc reveal">
+      <div class="pc-type">Desktop App · Java</div>
+      <div class="pc-title">Employee Management System</div>
+      <p class="pc-desc">A Java desktop application for managing employee records, attendance, and payroll. Demonstrates OOP principles, SQL data persistence, and enterprise-level record management design.</p>
+      <div class="pc-stack">
+        <span class="pc-tag">Java</span><span class="pc-tag">OOP</span>
+        <span class="pc-tag">SQL</span>
+      </div>
+      <div class="pc-links">
+        <a href="https://github.com/naveed1011/employee_management" target="_blank" class="pc-link"><i class="fa-brands fa-github"></i> Code</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career</div>
+  <h2 class="section-title">Experience &amp; <em>Education</em></h2>
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Oct 2019 – Present &nbsp;·&nbsp; Remote, USA</div>
+      <div class="tl-role">Learning Support Mentor</div>
+      <div class="tl-org">SoloLearn &nbsp;·&nbsp; Community Education Platform</div>
+      <ul class="tl-bullets">
+        <li>Mentored community members across 5+ years, fostering collaborative learning.</li>
+        <li>Contributed to platform growth by sharing technical knowledge and insights.</li>
+        <li>Earned certifications in C, C++, C#, SQL, Java, HTML, Python, PHP, Kotlin, and JavaScript.</li>
+        <li>Demonstrated strong problem-solving skills and commitment to continuous learning.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2020 – 2022 &nbsp;·&nbsp; Self-directed</div>
+      <div class="tl-role">Independent Study — Web Development &amp; ML</div>
+      <div class="tl-org">W3Schools &nbsp;·&nbsp; Online Learning</div>
+      <ul class="tl-bullets">
+        <li>Completed comprehensive web tutorials covering HTML, SQL, and PHP.</li>
+        <li>Explored machine learning concepts and algorithms through self-directed study.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">Sep 2019 – Sep 2023 &nbsp;·&nbsp; Mardan, Pakistan</div>
+      <div class="tl-role">BSc Computer Science</div>
+      <div class="tl-org">Abdul Wali Khan University Mardan &nbsp;</div>
+      <ul class="tl-bullets">
+        <li>Completed Bachelor's with a research-focused FYP on Flutter-based mobile systems.</li>
+        <li>Co-authored a Q1 journal paper on Alzheimer's detection using multi-view MRI.</li>
+        <li>Competed in multiple university-level coding contests.</li>
+        <li>Led the university football team to championship victory twice.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="section-label">Recognition</div>
+  <h2 class="section-title">Awards &amp; <em>Achievements</em></h2>
+  <div class="awards-grid reveal">
+    <div class="award-card">
+      <div class="award-icon"><i class="fa-solid fa-trophy"></i></div>
+      <div>
+        <div class="award-title">Q1 Journal Publication — IF 4.2</div>
+        <div class="award-desc">Co-authored research in <em>Image and Vision Computing</em> on Alzheimer's early detection. Ranked in the Top 10% of journals worldwide.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div>
+        <div class="award-title">PM's Ehsaas Undergraduate Scholarship</div>
+        <div class="award-desc">Full tuition + yearly stipend awarded by the Prime Minister of Pakistan's program for academic excellence and leadership potential.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon"><i class="fa-solid fa-futbol"></i></div>
+      <div>
+        <div class="award-title">Two-Time Football Champion</div>
+        <div class="award-desc">Led the university football team to championship victory twice, demonstrating leadership and sportsmanship.</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon"><i class="fa-solid fa-laptop-code"></i></div>
+      <div>
+        <div class="award-title">Coding Contest Competitor</div>
+        <div class="award-desc">Regular participant in university-level programming contests, sharpening algorithmic thinking and problem-solving under pressure.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="text-align:center">Let's Connect</div>
+    <h2 class="section-title reveal">Get In <em>Touch</em></h2>
+    <p class="reveal">I'm open to research collaborations, Master's program opportunities, and interesting AI/ML projects. Whether you want to talk Multimodal AI or just say hello — feel free to reach out!</p>
+    <div class="contact-links reveal">
+      <a href="mailto:naveedjr1011@gmail.com" class="c-link"><i class="fa-solid fa-envelope"></i> naveedjr1011@gmail.com</a>
+      <a href="https://www.linkedin.com/in/naveed-ahmad10" target="_blank" class="c-link"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+      <a href="https://github.com/naveed1011" target="_blank" class="c-link"><i class="fa-brands fa-github"></i> GitHub</a>
+      <!-- <a href="tel:+923219854216" class="c-link"><i class="fa-solid fa-phone"></i> +92 321 985 4216</a> -->
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2025 <span>Naveed Ahmad</span> · Built with passion &amp; purpose</div>
+  <div class="footer-right">
+    <a href="#hero">Top ↑</a>
+    <a href="mailto:naveedjr1011@gmail.com">Email</a>
+    <a href="https://github.com/naveed1011" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+<script>
+/* ── THEME ────────────────────────────────── */
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  document.getElementById('themeIcon').className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+  document.getElementById('themeLabel').textContent = isDark ? 'Dark' : 'Light';
+}
+
+/* ── NEURAL CANVAS ────────────────────────── */
+(function(){
+  const canvas = document.getElementById('neural-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resize(){
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const COUNT = 65, LINK = 155, SPEED = 0.32;
+  const nodes = [];
+  const mouse = { x: -9999, y: -9999 };
+
+  document.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  for(let i = 0; i < COUNT; i++){
+    nodes.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * SPEED,
+      vy: (Math.random() - 0.5) * SPEED,
+      r: Math.random() * 2.2 + 1
+    });
+  }
+
+  function draw(){
+    if(W === 0 || H === 0){ requestAnimationFrame(draw); return; }
+    ctx.clearRect(0, 0, W, H);
+
+    /* move nodes */
+    for(let i = 0; i < nodes.length; i++){
+      var n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      if(n.x < 0 || n.x > W) n.vx *= -1;
+      if(n.y < 0 || n.y > H) n.vy *= -1;
+
+      /* mouse repulsion */
+      var dx = n.x - mouse.x;
+      var dy = n.y - mouse.y;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if(d < 90 && d > 0){
+        var f = (90 - d) / 90 * 0.4;
+        n.vx += (dx / d) * f;
+        n.vy += (dy / d) * f;
+      }
+
+      /* draw node */
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(239,68,68,0.8)';
+      ctx.fill();
+    }
+
+    /* draw links */
+    for(var i = 0; i < nodes.length; i++){
+      for(var j = i + 1; j < nodes.length; j++){
+        var dx = nodes[i].x - nodes[j].x;
+        var dy = nodes[i].y - nodes[j].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if(dist < LINK){
+          var alpha = (1 - dist / LINK) * 0.4;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = 'rgba(239,68,68,' + alpha + ')';
+          ctx.lineWidth = 0.75;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── SCROLL REVEAL ────────────────────────── */
+var reveals = document.querySelectorAll('.reveal');
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(function(el){ io.observe(el); });
+</script>
+</body>
+</html>
