@@ -83,7 +83,7 @@
     .theme-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
     /* HERO — with brain image background */
     #hero{
-      position:relative;padding:7rem 6% 5rem;
+      position:relative;padding:5.5rem 6% 4rem;
       overflow:hidden;
       background:
         radial-gradient(ellipse 80% 60% at 85% -10%, var(--accent-soft), transparent 60%),
@@ -97,11 +97,11 @@
       background-size:cover;
       background-position:center center;
       background-repeat:no-repeat;
-      opacity:0.32;
+      opacity:0.55;
       z-index:0;
       pointer-events:none;
-      mask-image:radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 85%);
-      -webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 85%);
+      mask-image:radial-gradient(ellipse 85% 95% at 50% 50%, black 45%, transparent 90%);
+      -webkit-mask-image:radial-gradient(ellipse 85% 95% at 50% 50%, black 45%, transparent 90%);
     }
     [data-theme="dark"] .hero-bg-image{
       opacity:0.22;
@@ -124,8 +124,10 @@
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
     h1.hero-name{
       font-family:'Syne',sans-serif;font-weight:800;
-      font-size:clamp(2.8rem,6.5vw,5.2rem);line-height:1.05;
+      font-size:clamp(2.2rem,5vw,4rem);
+      line-height:1.05;
       letter-spacing:-2px;margin-bottom:.8rem;
+      color:#3f3f46;
     }
     .hero-name .accent{
       background:linear-gradient(135deg,var(--accent) 10%,var(--accent2));
@@ -136,7 +138,7 @@
       font-weight:400;margin-bottom:1.2rem;line-height:1.5;
     }
     .hero-subtitle{
-      font-size:1rem;color:var(--muted);max-width:620px;margin:0 auto 2.5rem;
+      font-size:0.95rem;color:#52525b;max-width:620px;margin:0 auto 2.5rem;
       line-height:1.75;
     }
     .hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
@@ -401,7 +403,7 @@
       .about-meta{grid-template-columns:1fr}
       nav{padding:1rem 5%}
       section{padding:5rem 5%}
-      #hero{padding:6rem 5% 4rem}
+      #hero{padding:5rem 5% 3.5rem}
     }
     @media(max-width:640px){
       .nav-links a:not(:last-child){display:none}
