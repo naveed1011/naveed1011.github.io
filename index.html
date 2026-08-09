@@ -81,7 +81,7 @@
       display:flex;align-items:center;gap:.45rem;transition:all var(--t);
     }
     .theme-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-    /* HERO */
+    /* HERO — with brain image background */
     #hero{
       position:relative;padding:7rem 6% 5rem;
       overflow:hidden;
@@ -90,7 +90,24 @@
         radial-gradient(ellipse 60% 50% at 10% 10%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 55%),
         var(--bg);
     }
-    #neural-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none}
+    /* Hero brain image — sits behind canvas and text */
+    .hero-bg-image{
+      position:absolute;inset:0;width:100%;height:100%;
+      background-image:url('hero-brain.jpg');
+      background-size:cover;
+      background-position:center center;
+      background-repeat:no-repeat;
+      opacity:0.32;
+      z-index:0;
+      pointer-events:none;
+      mask-image:radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 85%);
+      -webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 85%);
+    }
+    [data-theme="dark"] .hero-bg-image{
+      opacity:0.22;
+      filter:brightness(0.7) saturate(1.2);
+    }
+    #neural-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none;z-index:1}
     .hero-content{position:relative;z-index:2;max-width:820px;margin:0 auto;text-align:center}
     .hero-eyebrow{
       display:inline-flex;align-items:center;gap:.5rem;
@@ -98,6 +115,7 @@
       color:var(--accent);font-family:'JetBrains Mono',monospace;
       font-size:.75rem;padding:.4rem 1rem;border-radius:50px;margin-bottom:2rem;
       letter-spacing:.04em;
+      backdrop-filter:blur(4px);
     }
     .hero-eyebrow .dot{
       width:7px;height:7px;border-radius:50%;
@@ -134,6 +152,7 @@
       background:transparent;color:var(--text);padding:.78rem 1.9rem;border-radius:50px;
       font-weight:500;font-size:.9rem;border:1.5px solid var(--border);
       transition:all var(--t);display:inline-block;
+      backdrop-filter:blur(4px);
     }
     .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
     .hero-socials{display:flex;gap:.9rem;justify-content:center}
@@ -141,7 +160,8 @@
       width:42px;height:42px;border-radius:50%;border:1px solid var(--border);
       display:flex;align-items:center;justify-content:center;
       color:var(--muted);font-size:1rem;transition:all var(--t);
-      background:var(--surface);
+      background:color-mix(in srgb, var(--surface) 70%, transparent);
+      backdrop-filter:blur(4px);
     }
     .hero-socials a:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);transform:translateY(-2px)}
     /* SECTIONS */
@@ -413,8 +433,9 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — with brain image + neural canvas animation -->
 <section id="hero">
+  <div class="hero-bg-image"></div>
   <canvas id="neural-canvas"></canvas>
   <div class="hero-content">
     <div class="hero-eyebrow">
@@ -454,7 +475,7 @@
         <img src="my-photo.png" alt="Naveed Ahmad" onerror="this.style.display='none';document.getElementById('avatarFallback').style.display='flex'"/>
         <div class="avatar-placeholder" id="avatarFallback" style="display:none">
           <i class="ri-user-3-fill"></i>
-          <span>Naveed Ahmad</span>
+          <span>Photo coming soon</span>
         </div>
       </div>
       <div class="about-chips">
@@ -708,8 +729,6 @@
     <p class="section-desc">The experiences that shaped me — academically, professionally, and personally.</p>
   </div>
   <div class="timeline reveal">
-
-    <!-- CONCISE: Post-Graduation Independent Research Learning -->
     <div class="tl-item">
       <div class="tl-dot"></div>
       <div class="tl-date">Oct 2023 — Present &nbsp;·&nbsp; Self-directed</div>
@@ -722,7 +741,6 @@
         <li>This self-directed period reflects my drive to keep learning rigorously — beyond formal degrees, and toward deeper research capability.</li>
       </ul>
     </div>
-
     <div class="tl-item">
       <div class="tl-dot"></div>
       <div class="tl-date">Oct 2019 — Present &nbsp;·&nbsp; Remote</div>
@@ -735,7 +753,6 @@
         <li>Learned that patience and clear communication are just as important as technical skill.</li>
       </ul>
     </div>
-
     <div class="tl-item">
       <div class="tl-dot"></div>
       <div class="tl-date">Sep 2019 — Sep 2023 &nbsp;·&nbsp; Mardan, Pakistan</div>
@@ -748,7 +765,6 @@
         <li>Led the university football team to two championship victories — lessons in leadership I carry into research.</li>
       </ul>
     </div>
-
     <div class="tl-item">
       <div class="tl-dot"></div>
       <div class="tl-date">2020 — 2022 &nbsp;·&nbsp; Self-directed</div>
@@ -759,7 +775,6 @@
         <li>This self-directed period gave me the foundation to later dive into research with confidence.</li>
       </ul>
     </div>
-
   </div>
 </section>
 
@@ -843,7 +858,7 @@ function toggleTheme(){
   document.getElementById('themeLabel').textContent = isDark ? 'Dark' : 'Light';
 }
 
-/* REFINED NEURAL CANVAS — lighter color, slightly smaller nodes, slightly faster flow */
+/* REFINED NEURAL CANVAS */
 (function(){
   const canvas = document.getElementById('neural-canvas');
   if(!canvas) return;
@@ -856,7 +871,6 @@ function toggleTheme(){
   resize();
   window.addEventListener('resize', resize);
 
-  // Balanced: good visibility without overwhelming, slightly faster natural flow
   const COUNT = 75, LINK = 155, SPEED = 0.42;
   const nodes = [];
   const mouse = { x: -9999, y: -9999 };
@@ -884,12 +898,11 @@ function toggleTheme(){
     const styles = getComputedStyle(document.documentElement);
     const accent = styles.getPropertyValue('--accent').trim() || '#dc2626';
 
-    // Lighter RGB mix — softens the red tone
     const accentRGB = accent.startsWith('#') ?
       parseInt(accent.slice(1,3),16)+','+parseInt(accent.slice(3,5),16)+','+parseInt(accent.slice(5,7),16) :
       '220,38,38';
 
-    // Links — slightly lighter opacity for subtlety
+    // Links
     for(let i = 0; i < nodes.length; i++){
       for(let j = i + 1; j < nodes.length; j++){
         const dx = nodes[i].x - nodes[j].x;
@@ -914,7 +927,6 @@ function toggleTheme(){
       if(n.x < 0 || n.x > W) n.vx *= -1;
       if(n.y < 0 || n.y > H) n.vy *= -1;
 
-      // Mouse interaction
       const dx = n.x - mouse.x, dy = n.y - mouse.y;
       const d = Math.sqrt(dx*dx + dy*dy);
       if(d < 120 && d > 0){
@@ -923,11 +935,9 @@ function toggleTheme(){
         n.vy += (dy / d) * f;
       }
 
-      // Gentle velocity damping
       n.vx *= 0.994;
       n.vy *= 0.994;
 
-      // Softer, smaller glow halo
       const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 3);
       gradient.addColorStop(0, 'rgba('+accentRGB+',0.3)');
       gradient.addColorStop(1, 'rgba('+accentRGB+',0)');
@@ -936,7 +946,6 @@ function toggleTheme(){
       ctx.fillStyle = gradient;
       ctx.fill();
 
-      // Node core — slightly more transparent for lightness
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba('+accentRGB+',0.8)';
