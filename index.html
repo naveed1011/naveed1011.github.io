@@ -18,6 +18,8 @@
       --accent-soft:rgba(220,38,38,.08);
       --glow:rgba(220,38,38,.15);
       --pub:#d97706;
+      --inprogress:#2563eb;
+      --inprogress-soft:rgba(37,99,235,.1);
       --r:16px;
       --t:.35s cubic-bezier(.4,0,.2,1);
     }
@@ -33,6 +35,8 @@
       --accent-soft:rgba(239,68,68,.12);
       --glow:rgba(239,68,68,.2);
       --pub:#f59e0b;
+      --inprogress:#60a5fa;
+      --inprogress-soft:rgba(96,165,250,.12);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -134,13 +138,20 @@
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
     }
     .hero-title{
-      font-size:clamp(1rem,2.2vw,1.25rem);color:#27272a;
-      font-weight:500;margin-bottom:1.2rem;line-height:1.5;
+      font-size:clamp(1rem,2.2vw,1.25rem);
+      color:#27272a;
+      font-weight:500;
+      margin-bottom:1.2rem;
+      line-height:1.5;
       text-shadow:0 1px 2px rgba(255,255,255,0.85);
     }
     .hero-subtitle{
-      font-size:0.95rem;color:#1f1f23;max-width:620px;margin:0 auto 2.5rem;
-      line-height:1.75;font-weight:450;text-shadow:0 1px 2px rgba(255,255,255,0.85);
+      font-size:0.95rem;
+      color:#1f1f23;
+      font-weight:450;
+      max-width:620px;margin:0 auto 2.5rem;
+      line-height:1.75;
+      text-shadow:0 1px 2px rgba(255,255,255,0.85);
     }
     .hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
     .btn-primary{
@@ -239,10 +250,17 @@
     .pub-card{
       background:var(--bg);border:1px solid color-mix(in srgb, var(--pub) 25%, var(--border));
       border-radius:var(--r);padding:2.2rem;position:relative;overflow:hidden;
+      margin-bottom:1.5rem;
     }
     .pub-card::before{
       content:'';position:absolute;top:0;left:0;right:0;height:3px;
       background:linear-gradient(90deg,var(--pub),var(--accent));
+    }
+    .pub-card.in-progress{
+      border:1px solid color-mix(in srgb, var(--inprogress) 30%, var(--border));
+    }
+    .pub-card.in-progress::before{
+      background:linear-gradient(90deg,var(--inprogress),var(--accent));
     }
     .pub-badge{
       display:inline-flex;align-items:center;gap:.5rem;
@@ -250,6 +268,11 @@
       border:1px solid color-mix(in srgb, var(--pub) 35%, transparent);
       color:var(--pub);font-size:.76rem;font-weight:600;
       padding:.35rem .85rem;border-radius:50px;margin-bottom:1.2rem;
+    }
+    .pub-badge.in-progress{
+      background:var(--inprogress-soft);
+      border:1px solid color-mix(in srgb, var(--inprogress) 35%, transparent);
+      color:var(--inprogress);
     }
     .pub-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.7rem;line-height:1.4}
     .pub-authors{font-size:.88rem;color:var(--muted);margin-bottom:.4rem}
@@ -436,7 +459,7 @@
   </div>
 </nav>
 
-<!-- HERO — with brain image + neural canvas animation -->
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg-image"></div>
   <canvas id="neural-canvas"></canvas>
@@ -567,8 +590,10 @@
   <div class="section-head reveal">
     <div class="section-label">Publications</div>
     <h2 class="section-title">Research <em>work</em></h2>
-    <p class="section-desc">My first peer-reviewed contribution — and the start of what I hope will be a lifelong journey in medical AI research.</p>
+    <p class="section-desc">My peer-reviewed contribution and active work in progress.</p>
   </div>
+
+  <!-- Published Paper -->
   <div class="pub-card reveal">
     <div class="pub-badge"><i class="ri-trophy-fill"></i>&nbsp; Q1 Journal &nbsp;·&nbsp; Image and Vision Computing &nbsp;·&nbsp; IF 4.2 &nbsp;·&nbsp; Top 10%</div>
     <div class="pub-title">Early Progression Detection from MCI to AD Using Multi-view MRI for Enhanced Assisted Living</div>
@@ -588,6 +613,28 @@
       <span class="pub-tag">Medical Imaging</span>
       <span class="pub-tag">MCI Progression</span>
       <span class="pub-tag">Explainable AI</span>
+    </div>
+  </div>
+
+  <!-- NEW: Paper In Preparation -->
+  <div class="pub-card in-progress reveal">
+    <div class="pub-badge in-progress"><i class="ri-edit-2-fill"></i>&nbsp; Manuscript in Preparation</div>
+    <div class="pub-title">AD-TriFuseViT: A Multi-Branch Deep Learning Framework for Multi-Class Alzheimer's Disease Classification Using Structural MRI</div>
+    <div class="pub-authors"><strong>Ahmad, N.</strong>, et al.</div>
+    <div class="pub-venue">Target: Peer-reviewed journal · Expected submission 2026</div>
+    <p class="pub-desc">
+      Building on my published work, I'm developing AD-TriFuseViT — a multi-branch framework that fuses complementary
+      views of structural MRI for robust multi-class Alzheimer's classification. This work explores how tri-branch
+      architectures can capture distinct pathological patterns across different spatial perspectives, aiming to improve
+      both classification accuracy and model interpretability for clinical decision support.
+    </p>
+    <div class="pub-tags">
+      <span class="pub-tag">Alzheimer's Classification</span>
+      <span class="pub-tag">Structural MRI</span>
+      <span class="pub-tag">Multi-Branch CNN</span>
+      <span class="pub-tag">Vision Transformer</span>
+      <span class="pub-tag">Multi-Class</span>
+      <span class="pub-tag">Neuroimaging</span>
     </div>
   </div>
 </section>
@@ -669,9 +716,25 @@
   <div class="section-head reveal">
     <div class="section-label">Things I've built</div>
     <h2 class="section-title">Featured <em>projects</em></h2>
-    <p class="section-desc">From mobile apps to ML experiments — each project taught me something new about building things that matter.</p>
+    <p class="section-desc">From medical imaging research to practical software — each project shaped my thinking.</p>
   </div>
   <div class="projects-grid">
+
+    <!-- NEW: Brain Tumor Segmentation Project -->
+    <div class="pc reveal">
+      <div class="pc-type">Medical AI · 3D Segmentation · Research</div>
+      <div class="pc-title">Brain Tumor Segmentation — Swin UNETR with Modality Attention</div>
+      <p class="pc-desc">Explored how transfer learning and attention mechanisms can improve 3D medical image segmentation. I fine-tuned a Swin UNETR architecture on multi-modal MRI scans to segment brain tumor sub-regions, designing a custom Modality Attention Fusion module that adaptively weights the four input MRI sequences. Built the full pipeline with MONAI — from preprocessing to BraTS challenge-style evaluation — and trained efficiently on a 16GB GPU using mixed precision and gradient checkpointing. This work deepened my hands-on understanding of hybrid CNN-Transformer models in neuroimaging, directly complementing my Alzheimer's research direction.</p>
+      <div class="pc-stack">
+        <span class="pc-tag">PyTorch</span><span class="pc-tag">MONAI</span>
+        <span class="pc-tag">Swin UNETR</span><span class="pc-tag">3D Segmentation</span>
+        <span class="pc-tag">BraTS</span><span class="pc-tag">Attention</span>
+      </div>
+      <div class="pc-links">
+        <a href="https://github.com/naveed1011/BrainTumor-Segmentation-Swin-UNETR" target="_blank" class="pc-link"><i class="ri-github-fill"></i> Code</a>
+      </div>
+    </div>
+
     <div class="pc reveal">
       <div class="pc-type">Mobile App · Final Year Project</div>
       <div class="pc-title">The Stitcher — Tailor Shop Management</div>
